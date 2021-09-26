@@ -3,6 +3,7 @@ extern crate lazy_static;
 
 use flaawn::flaawn_renderer::flaawn_component::FlaawnComponent;
 use flaawn::flaawn_renderer::html_components::generic_html_component::GenericHTMLComponent;
+use flaawn::flaawn_renderer::html_components::generic_html_component::GenericHTMLComponentOptions;
 use flaawn::flaawn_renderer::html_components::html_site::HTMLSite;
 use flaawn::flaawn_renderer::html_components::plain_text_component::PlainTextComponent;
 use flaawn::flaawn_server::route::Route;
@@ -17,54 +18,10 @@ lazy_static! {
     static ref main_comp: HTMLSite = HTMLBoilerplate!(
         "Test",
         GenericHTMLTag!(
-            "ul",
-            GenericHTMLTag!("li", PlainText!("Test1"),),
-            GenericHTMLTag!("li", PlainText!("Test2"),),
-            GenericHTMLTag!("li", PlainText!("Test3"),),
-            GenericHTMLTag!("li", PlainText!("Test4"),),
+            "img",
+            (color = "#ff0000", src = "https://picsum.photos/500"),
         ),
-        GenericHTMLTag!(
-            "ul",
-            GenericHTMLTag!("li", PlainText!("Test1"),),
-            GenericHTMLTag!("li", PlainText!("Test2"),),
-            GenericHTMLTag!("li", PlainText!("Test3"),),
-            GenericHTMLTag!("li", PlainText!("Test4"),),
-        ),
-        GenericHTMLTag!(
-            "ul",
-            GenericHTMLTag!("li", PlainText!("Test1"),),
-            GenericHTMLTag!("li", PlainText!("Test2"),),
-            GenericHTMLTag!("li", PlainText!("Test3"),),
-            GenericHTMLTag!("li", PlainText!("Test4"),),
-        ),
-        GenericHTMLTag!(
-            "ul",
-            GenericHTMLTag!("li", PlainText!("Test1"),),
-            GenericHTMLTag!("li", PlainText!("Test2"),),
-            GenericHTMLTag!("li", PlainText!("Test3"),),
-            GenericHTMLTag!("li", PlainText!("Test4"),),
-        ),
-        GenericHTMLTag!(
-            "ul",
-            GenericHTMLTag!("li", PlainText!("Test1"),),
-            GenericHTMLTag!("li", PlainText!("Test2"),),
-            GenericHTMLTag!("li", PlainText!("Test3"),),
-            GenericHTMLTag!("li", PlainText!("Test4"),),
-        ),
-        GenericHTMLTag!(
-            "ul",
-            GenericHTMLTag!("li", PlainText!("Test1"),),
-            GenericHTMLTag!("li", PlainText!("Test2"),),
-            GenericHTMLTag!("li", PlainText!("Test3"),),
-            GenericHTMLTag!("li", PlainText!("Test4"),),
-        ),
-        GenericHTMLTag!(
-            "ul",
-            GenericHTMLTag!("li", PlainText!("Test1"),),
-            GenericHTMLTag!("li", PlainText!("Test2"),),
-            GenericHTMLTag!("li", PlainText!("Test3"),),
-            GenericHTMLTag!("li", PlainText!("Test4"),),
-        ),
+        GenericHTMLTag!("p", (color = "#ff0000", dir = "rtl"), PlainText!("Test"),),
     );
 }
 

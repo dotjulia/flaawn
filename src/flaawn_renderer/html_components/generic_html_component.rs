@@ -1,12 +1,17 @@
 use crate::flaawn_renderer::flaawn_component::FlaawnComponent;
 use crate::flaawn_renderer::flaawn_component_with_children::FlaawnComponentWithChildren;
+use crate::options_struct;
 use std::sync::Arc;
 
 #[macro_export]
 macro_rules! GenericHTMLTag {
-    ($tag:expr, $($child:expr,)*) => {
+    ($tag:expr, ( $($on:ident = $ov:expr),+ ), $($child:expr,)*) => {
         GenericHTMLComponent {
             tag: $tag.to_string(),
+            options: GenericHTMLComponentOptions {
+                $($on: Some($ov.to_string()),)*
+                ..Default::default()
+            },
             child_components: vec![
                 $(
                     Arc::from($child),
@@ -16,18 +21,166 @@ macro_rules! GenericHTMLTag {
     }
 }
 
+#[macro_export]
+macro_rules! generate_string_options_list {
+    ($name:ident, [$($n:ident),+ ]) => {
+        options_struct!($name, {
+            $($n: String = None,)*
+        });
+    };
+}
+
+generate_string_options_list!(
+    GenericHTMLComponentOptions,
+    [
+        accept,
+        accept_charset,
+        accesskey,
+        action,
+        align,
+        allow,
+        alt,
+        async__,
+        autocapitalize,
+        autocomplete,
+        autofocus,
+        autoplay,
+        background,
+        bgcolor,
+        border,
+        buffered,
+        capture,
+        challenge,
+        charset,
+        checked,
+        cite,
+        class,
+        code,
+        codebase,
+        color,
+        cols,
+        colspan,
+        content,
+        contenteditable,
+        contextmenu,
+        controls,
+        coords,
+        crossorigin,
+        csp,
+        data,
+        datetime,
+        decoding,
+        default,
+        defer,
+        dir,
+        dirname,
+        disabled,
+        download,
+        draggable,
+        enctype,
+        enterkeyhint,
+        for__,
+        form,
+        formaction,
+        formenctype,
+        formmethod,
+        formnovalidate,
+        formtarget,
+        headers,
+        height,
+        hidden,
+        high,
+        href,
+        hreflang,
+        http_equiv,
+        icon,
+        id,
+        importance,
+        integrity,
+        intrinsicsize,
+        inputmode,
+        ismap,
+        itemprop,
+        keytype,
+        kind,
+        label,
+        lang,
+        language,
+        loading,
+        list,
+        loop__,
+        low,
+        manifest,
+        max,
+        maxlength,
+        minlength,
+        media,
+        method,
+        min,
+        multiple,
+        muted,
+        name,
+        novalidate,
+        open,
+        optimum,
+        pattern,
+        ping,
+        placeholder,
+        poster,
+        preload,
+        radiogroup,
+        readonly,
+        referrerpolicy,
+        rel,
+        required,
+        reversed,
+        rows,
+        rowspan,
+        sandbox,
+        scope,
+        scoped,
+        selected,
+        shape,
+        size,
+        sizes,
+        slot,
+        span,
+        spellcheck,
+        src,
+        srcdoc,
+        srclang,
+        srcset,
+        start,
+        step,
+        style,
+        summary,
+        tabindex,
+        target,
+        title,
+        translate,
+        type__,
+        usemap,
+        value,
+        width,
+        wrap
+    ]
+);
+
 pub struct GenericHTMLComponent {
     pub tag: String,
+    pub options: GenericHTMLComponentOptions,
     pub child_components: Vec<Arc<dyn FlaawnComponent>>,
 }
 
 impl GenericHTMLComponent {
     pub fn new(
         tag: String,
+        options: GenericHTMLComponentOptions,
         child_components: Vec<Arc<dyn FlaawnComponent>>,
     ) -> GenericHTMLComponent {
         GenericHTMLComponent {
             tag,
+            options,
             child_components: child_components,
         }
     }
@@ -41,6 +194,12 @@ impl FlaawnComponentWithChildren for GenericHTMLComponent {
 
 impl FlaawnComponent for GenericHTMLComponent {
     fn build(&self) -> std::string::String {
-        format!("<{}>{}</{}>", self.tag, self.build_children(), self.tag)
+        format!(
+            "<{} {}>{}</{}>",
+            self.tag,
+            self.options.build_attributes(),
+            self.build_children(),
+            self.tag
+        )
     }
 }
