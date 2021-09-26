@@ -72,62 +72,6 @@ fn main_renderer() -> String {
     main_comp.build()
 }
 
-// fn main_renderer() -> String {
-//     HTMLBoilerplate!(
-//         "Test",
-//         GenericHTMLTag!(
-//             "ul",
-//             GenericHTMLTag!("li", PlainText!("Test1"),),
-//             GenericHTMLTag!("li", PlainText!("Test2"),),
-//             GenericHTMLTag!("li", PlainText!("Test3"),),
-//             GenericHTMLTag!("li", PlainText!("Test4"),),
-//         ),
-//         GenericHTMLTag!(
-//             "ul",
-//             GenericHTMLTag!("li", PlainText!("Test1"),),
-//             GenericHTMLTag!("li", PlainText!("Test2"),),
-//             GenericHTMLTag!("li", PlainText!("Test3"),),
-//             GenericHTMLTag!("li", PlainText!("Test4"),),
-//         ),
-//         GenericHTMLTag!(
-//             "ul",
-//             GenericHTMLTag!("li", PlainText!("Test1"),),
-//             GenericHTMLTag!("li", PlainText!("Test2"),),
-//             GenericHTMLTag!("li", PlainText!("Test3"),),
-//             GenericHTMLTag!("li", PlainText!("Test4"),),
-//         ),
-//         GenericHTMLTag!(
-//             "ul",
-//             GenericHTMLTag!("li", PlainText!("Test1"),),
-//             GenericHTMLTag!("li", PlainText!("Test2"),),
-//             GenericHTMLTag!("li", PlainText!("Test3"),),
-//             GenericHTMLTag!("li", PlainText!("Test4"),),
-//         ),
-//         GenericHTMLTag!(
-//             "ul",
-//             GenericHTMLTag!("li", PlainText!("Test1"),),
-//             GenericHTMLTag!("li", PlainText!("Test2"),),
-//             GenericHTMLTag!("li", PlainText!("Test3"),),
-//             GenericHTMLTag!("li", PlainText!("Test4"),),
-//         ),
-//         GenericHTMLTag!(
-//             "ul",
-//             GenericHTMLTag!("li", PlainText!("Test1"),),
-//             GenericHTMLTag!("li", PlainText!("Test2"),),
-//             GenericHTMLTag!("li", PlainText!("Test3"),),
-//             GenericHTMLTag!("li", PlainText!("Test4"),),
-//         ),
-//         GenericHTMLTag!(
-//             "ul",
-//             GenericHTMLTag!("li", PlainText!("Test1"),),
-//             GenericHTMLTag!("li", PlainText!("Test2"),),
-//             GenericHTMLTag!("li", PlainText!("Test3"),),
-//             GenericHTMLTag!("li", PlainText!("Test4"),),
-//         ),
-//     )
-//     .build()
-// }
-
 #[test]
 fn basic() {
     let server = FlaawnServer::new(None, None);
