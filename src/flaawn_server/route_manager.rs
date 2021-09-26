@@ -1,0 +1,27 @@
+use crate::flaawn_server::route::Route;
+
+pub struct RouteManager {
+    routes: Vec<Route>,
+}
+
+impl RouteManager {
+    pub fn new() -> RouteManager {
+        RouteManager {
+            routes: Vec::<Route>::new(),
+        }
+    }
+    pub fn add_route(&mut self, route: Route) {
+        self.routes.push(route);
+    }
+    fn construct_request_line(r: &Route) -> String {
+        format!("{} {} HTTP/1.1", r.method, r.route).to_string()
+    }
+    pub fn match_route(&self, request_buffer: &[u8; 1024]) -> Result<Route, u8> {
+        for r in &self.routes {
+            if request_buffer.starts_with(RouteManager::construct_request_line(r).as_bytes()) {
+                return Ok(*r);
+            }
+        }
+        return Err(0);
+    }
+}
