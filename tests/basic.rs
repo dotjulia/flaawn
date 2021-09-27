@@ -1,32 +1,36 @@
 #[macro_use]
 extern crate lazy_static;
 
+use flaawn::div;
 use flaawn::flaawn_renderer::flaawn_component::FlaawnComponent;
-use flaawn::flaawn_renderer::html_components::generic_html_component::GenericHTMLComponent;
-use flaawn::flaawn_renderer::html_components::generic_html_component::GenericHTMLComponentOptions;
 use flaawn::flaawn_renderer::html_components::html_site::HTMLSite;
-use flaawn::flaawn_renderer::html_components::plain_text_component::PlainTextComponent;
 use flaawn::flaawn_server::route::Route;
 use flaawn::flaawn_server::route::RouteMethod::GET;
 use flaawn::flaawn_server::FlaawnServer;
+use flaawn::img;
+use flaawn::p;
+use flaawn::s;
+use flaawn::CSSStyle;
 use flaawn::GenericHTMLTag;
 use flaawn::HTMLBoilerplate;
 use flaawn::PlainText;
-use std::sync::Arc;
 
 lazy_static! {
-    static ref main_comp: HTMLSite = HTMLBoilerplate!(
+    static ref MAIN_COMP: HTMLSite = HTMLBoilerplate!(
         "Test",
-        GenericHTMLTag!(
-            "img",
-            (color = "#ff0000", src = "https://picsum.photos/500"),
+        img!((src = s!("https://picsum.photos/500"),),),
+        p!(
+            (style = CSSStyle! {
+                color: "#ff0000";
+            },),
+            PlainText!("<script>alert(1)</script>"),
         ),
-        GenericHTMLTag!("p", (color = "#ff0000", dir = "rtl"), PlainText!("Test"),),
+        div!((), PlainText!("Test"),),
     );
 }
 
 fn main_renderer() -> String {
-    main_comp.build()
+    MAIN_COMP.build()
 }
 
 #[test]

@@ -1,16 +1,14 @@
 [package]
-name = "flaawn"
+name = "flawn_proc"
 version = "0.1.0"
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-threadpool = "1.8.1"
-lazy_static = "1.4.0"
-flawn_proc = { path = "./flawn_proc" }
-default_macro = "0.2.1"
+syn = { version = "1.0.77", features = ["full"] }
+quote = "1.0.9"
 
 [lib]
-name = "flaawn"
-path = "src/lib.rs"
+name = "flawn_proc"
+proc-macro=true

@@ -1,20 +1,21 @@
 use crate::flaawn_renderer::flaawn_component::FlaawnComponent;
 use crate::flaawn_renderer::flaawn_component_with_children::FlaawnComponentWithChildren;
+use crate::flaawn_renderer::html_components::css_styleable::CSSStyleOptions;
 use crate::options_struct;
 use std::sync::Arc;
 
 #[macro_export]
 macro_rules! GenericHTMLTag {
-    ($tag:expr, ( $($on:ident = $ov:expr),+ ), $($child:expr,)*) => {
-        GenericHTMLComponent {
+    ($tag:expr, ( $($on:ident = $ov:expr,)* ), $($child:expr,)*) => {
+        flaawn::flaawn_renderer::html_components::generic_html_component::GenericHTMLComponent {
             tag: $tag.to_string(),
-            options: GenericHTMLComponentOptions {
-                $($on: Some($ov.to_string()),)*
+            options: flaawn::flaawn_renderer::html_components::generic_html_component::GenericHTMLComponentOptions {
+                $($on: Some($ov),)*
                 ..Default::default()
             },
             child_components: vec![
                 $(
-                    Arc::from($child),
+                    std::sync::Arc::from($child),
                 )*
             ],
         }
@@ -152,7 +153,6 @@ generate_string_options_list!(
         srcset,
         start,
         step,
-        style,
         summary,
         tabindex,
         target,

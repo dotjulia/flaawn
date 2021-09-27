@@ -5,11 +5,11 @@ use std::sync::Arc;
 #[macro_export]
 macro_rules! HTMLBoilerplate {
     ($title:expr, $($child:expr,)*) => {
-        HTMLSite {
+        flaawn::flaawn_renderer::html_components::html_site::HTMLSite {
             title: $title.to_string(),
             child_components: vec![
                 $(
-                    Arc::from($child),
+                    std::sync::Arc::from($child),
                 )*
             ],
         }

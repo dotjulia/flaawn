@@ -1,15 +1,10 @@
 #[macro_export]
 macro_rules! options_struct {
     ($name:ident, {$($n:ident: $t:ty = $dv:expr,)+ }) => {
+        #[derive(Default)]
         pub struct $name {
             $(pub $n: Option<$t>,)*
-        }
-        impl Default for $name {
-            fn default() -> Self {
-                $name {
-                    $($n: $dv,)*
-                }
-            }
+            pub style: Option<CSSStyleOptions>,
         }
         impl $name {
             pub fn build_attributes(&self) -> String {
@@ -23,6 +18,9 @@ macro_rules! options_struct {
                         ));
                     }
                 )*
+                if !self.style.is_none() {
+                    ret_val.push_str(&format!("style=\"{}\"", self.style.as_ref().unwrap().build_css()))
+                }
                 ret_val
             }
         }
@@ -39,6 +37,13 @@ macro_rules! render_attribute {
                 $self.$name.clone().unwrap()
             ));
         }
+    };
+}
+
+#[macro_export]
+macro_rules! s {
+    ($str:expr) => {
+        $str.to_string()
     };
 }
 
