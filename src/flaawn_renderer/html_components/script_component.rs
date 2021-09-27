@@ -2,22 +2,11 @@ use crate::flaawn_renderer::flaawn_component::FlaawnComponent;
 use crate::flaawn_renderer::html_components::generic_html_component::GenericHTMLComponentOptions;
 use flawn_proc::FlaawnComponentMacro;
 
-macro_rules! script {
-    ($script:expr, ( $($on:ident = $ov:expr,)*  )) => {
-        ScriptComponent {
-            script: Some($script),
-            GenericHTMLComponentOptions {
-                $($on: Some($ov),)*
-                ..Default::default()
-            },
-        }
-    };
-}
-
-#[derive(FlaawnComponentMacro)]
+#[derive(FlaawnComponentMacro, Default)]
 pub struct ScriptComponent {
-    script: Option<String>,
-    attributes: GenericHTMLComponentOptions,
+    pub script: Option<String>,
+    #[html_attributes]
+    pub attributes: GenericHTMLComponentOptions,
 }
 
 impl FlaawnComponent for ScriptComponent {
