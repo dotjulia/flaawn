@@ -6,14 +6,14 @@ use flawn_proc::FlaawnComponentMacro;
 pub struct ScriptComponent {
     pub script: Option<String>,
     #[html_attributes]
-    pub attributes: GenericHTMLComponentOptions,
+    pub html_args: GenericHTMLComponentOptions,
 }
 
 impl FlaawnComponent for ScriptComponent {
     fn build(&self) -> std::string::String {
         format!(
             "<script {}>{}</script>",
-            self.attributes.build_attributes(),
+            self.html_args.build_attributes(),
             self.script.as_ref().unwrap_or(&"".to_string())
         )
     }

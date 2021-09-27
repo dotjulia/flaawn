@@ -28,7 +28,7 @@ lazy_static! {
             PlainText!("<script>alert(1)</script>"),
         ),
         div!((), PlainText!("Test"),),
-        ScriptComponent_m!(s!("test"), ()),
+        ScriptComponent_m!(s!("alert(1)"), ()),
     );
 }
 

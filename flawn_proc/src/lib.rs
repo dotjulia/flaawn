@@ -15,9 +15,11 @@ pub fn flaawn_component_macro(input: TokenStream) -> TokenStream {
         macro_name_ident.to_string()
     );
     for field in &s2.fields {
-        if field.ident.as_ref().unwrap().to_string() == "attributes" {
-            //println!("{:?}", field.attrs[0].path.get_ident().unwrap().to_string());
+        if field.attrs.len() > 0
+            && field.attrs[0].path.get_ident().unwrap().to_string() == "html_attributes"
+        {
             contains_atributtes = true;
+            attributes_name = field.ident.as_ref().unwrap().to_string();
             continue;
         }
         final_macro.push_str(&format!(
@@ -34,7 +36,9 @@ pub fn flaawn_component_macro(input: TokenStream) -> TokenStream {
         macro_name_ident.to_string(),
     ));
     for field in s2.fields {
-        if field.ident.as_ref().unwrap().to_string() == "attributes" {
+        if field.attrs.len() > 0
+            && field.attrs[0].path.get_ident().unwrap().to_string() == "html_attributes"
+        {
             continue;
         }
         final_macro.push_str(&format!(
@@ -44,17 +48,18 @@ pub fn flaawn_component_macro(input: TokenStream) -> TokenStream {
         ));
     }
     if contains_atributtes {
-        final_macro.push_str(
-            r#"attributes: flaawn::flaawn_renderer::html_components::generic_html_component::GenericHTMLComponentOptions {
+        final_macro.push_str(&format!(
+            r#"{}: flaawn::flaawn_renderer::html_components::generic_html_component::GenericHTMLComponentOptions {{
         $($on: Some($ov),)*
         ..Default::default()
-    },"#,
-        );
+    }},"#,
+    attributes_name));
     }
     final_macro.push_str(
         r#"}
     };
 }"#,
     );
+    //println!("{}", final_macro);
     final_macro.parse().unwrap()
 }
