@@ -3,6 +3,7 @@ extern crate lazy_static;
 
 use flaawn::div;
 use flaawn::flaawn_renderer::flaawn_component::FlaawnComponent;
+use flaawn::flaawn_renderer::html_components::css_component::CSSComponent;
 use flaawn::flaawn_renderer::html_components::html_site::HTMLSite;
 use flaawn::flaawn_renderer::html_components::script_component::ScriptComponent;
 use flaawn::flaawn_server::route::Route;
@@ -11,6 +12,7 @@ use flaawn::flaawn_server::FlaawnServer;
 use flaawn::img;
 use flaawn::p;
 use flaawn::s;
+use flaawn::CSSComponent_m;
 use flaawn::CSSStyle;
 use flaawn::GenericHTMLTag;
 use flaawn::HTMLBoilerplate;
@@ -27,8 +29,9 @@ lazy_static! {
             },),
             PlainText!("<script>alert(1)</script>"),
         ),
-        div!((), PlainText!("Test"),),
+        div!((class = s!("test"),), PlainText!("Test"),),
         ScriptComponent_m!(s!("alert(1)"), ()),
+        CSSComponent_m!(s!(".test { background-color: #ff0000; }"), ()),
     );
 }
 

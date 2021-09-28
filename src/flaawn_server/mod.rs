@@ -31,10 +31,13 @@ fn handle_connection(mut stream: TcpStream, route_manager: Arc<Mutex<RouteManage
                     dur.as_micros(),
                     dur.as_millis()
                 );
+                println!("{}", String::from_utf8(request_buffer.to_vec()).unwrap());
+                let session_id = "sdf";
                 let status_line = "HTTP/1.1 200 OK";
                 let response = format!(
-                    "{}\r\nContent-Length: {}\r\n\r\n{}",
+                    "{}\r\nContent-Type: text/html\r\nSet-Cookie: session_id={}\r\nContent-Length: {}\r\n\r\n{}",
                     status_line,
+                    session_id,
                     content.len(),
                     content
                 );
