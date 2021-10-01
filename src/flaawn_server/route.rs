@@ -18,8 +18,9 @@ impl fmt::Display for RouteMethod {
         write!(f, "{:?}", self)
     }
 }
-
-type RendererFn = fn() -> String;
+type RendererFn = fn(
+    session: std::sync::Arc<std::sync::Mutex<std::collections::HashMap<String, String>>>,
+) -> String;
 
 #[derive(Copy, Clone)]
 pub struct Route {

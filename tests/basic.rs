@@ -1,6 +1,10 @@
 #[macro_use]
 extern crate lazy_static;
 
+use std::collections::HashMap;
+use std::sync::Arc;
+use std::sync::Mutex;
+
 use flaawn::div;
 use flaawn::flaawn_renderer::flaawn_component::FlaawnComponent;
 use flaawn::flaawn_renderer::html_components::css_component::CSSComponent;
@@ -35,7 +39,14 @@ lazy_static! {
     );
 }
 
-fn main_renderer() -> String {
+fn main_renderer(session: Arc<Mutex<HashMap<String, String>>>) -> String {
+    session
+        .lock()
+        .unwrap()
+        .entry(s!("test"))
+        .or_insert(s!("1"))
+        .push_str("1");
+    println!("{}", session.lock().unwrap()["test"]);
     MAIN_COMP.build()
 }
 

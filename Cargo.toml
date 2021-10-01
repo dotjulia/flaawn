@@ -10,6 +10,8 @@ threadpool = "1.8.1"
 lazy_static = "1.4.0"
 flawn_proc = { path = "./flawn_proc" }
 default_macro = "0.2.1"
+httparse = "1.5.1"
+rand = "0.8.4"
 
 [lib]
 name = "flaawn"
