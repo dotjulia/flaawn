@@ -10,7 +10,7 @@ pub struct CSSComponent {
 }
 
 impl FlaawnComponent for CSSComponent {
-    fn build(&self) -> String {
+    fn build(&self, _: &mut std::collections::HashMap<String, String>) -> String {
         format!(
             "<style {}>{}</style>",
             self.html_attrs.build_attributes(),

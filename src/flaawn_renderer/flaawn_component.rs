@@ -48,5 +48,5 @@ macro_rules! s {
 }
 
 pub trait FlaawnComponent: Send + Sync {
-    fn build(&self) -> String;
+    fn build(&self, session: &mut std::collections::HashMap<String, String>) -> String;
 }

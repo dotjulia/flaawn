@@ -37,7 +37,10 @@ impl FlaawnComponentWithChildren for HTMLSite {
 }
 
 impl FlaawnComponent for HTMLSite {
-    fn build(&self) -> std::string::String {
+    fn build(
+        &self,
+        session: &mut std::collections::HashMap<String, String>,
+    ) -> std::string::String {
         format!(
             r#"
             <!DOCTYPE html>
@@ -50,7 +53,7 @@ impl FlaawnComponent for HTMLSite {
                 </body>
             </html>
             "#,
-            self.build_children()
+            self.build_children(session)
         )
     }
 }

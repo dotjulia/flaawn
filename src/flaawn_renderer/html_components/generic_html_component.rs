@@ -193,12 +193,15 @@ impl FlaawnComponentWithChildren for GenericHTMLComponent {
 }
 
 impl FlaawnComponent for GenericHTMLComponent {
-    fn build(&self) -> std::string::String {
+    fn build(
+        &self,
+        session: &mut std::collections::HashMap<String, String>,
+    ) -> std::string::String {
         format!(
             "<{} {}>{}</{}>",
             self.tag,
             self.options.build_attributes(),
-            self.build_children(),
+            self.build_children(session),
             self.tag
         )
     }

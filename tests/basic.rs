@@ -18,7 +18,6 @@ use flaawn::p;
 use flaawn::s;
 use flaawn::CSSComponent_m;
 use flaawn::CSSStyle;
-use flaawn::GenericHTMLTag;
 use flaawn::HTMLBoilerplate;
 use flaawn::PlainText;
 use flaawn::ScriptComponent_m;
@@ -47,7 +46,7 @@ fn main_renderer(session: Arc<Mutex<HashMap<String, String>>>) -> String {
         .or_insert(s!("1"))
         .push_str("1");
     println!("{}", session.lock().unwrap()["test"]);
-    MAIN_COMP.build()
+    MAIN_COMP.build(&mut session.lock().unwrap())
 }
 
 #[test]

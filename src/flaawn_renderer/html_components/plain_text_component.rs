@@ -19,7 +19,7 @@ pub struct PlainTextComponent {
 }
 
 impl FlaawnComponent for PlainTextComponent {
-    fn build(&self) -> std::string::String {
+    fn build(&self, _: &mut std::collections::HashMap<String, String>) -> std::string::String {
         if self.sanitized {
             return self.text.replace("<", "&lt;").replace(">", "&gt;");
         }

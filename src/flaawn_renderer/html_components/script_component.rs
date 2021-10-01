@@ -10,7 +10,7 @@ pub struct ScriptComponent {
 }
 
 impl FlaawnComponent for ScriptComponent {
-    fn build(&self) -> std::string::String {
+    fn build(&self, _: &mut std::collections::HashMap<String, String>) -> std::string::String {
         format!(
             "<script {}>{}</script>",
             self.html_args.build_attributes(),
