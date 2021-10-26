@@ -1,5 +1,6 @@
 use crate::flaawn_renderer::flaawn_component::FlaawnComponent;
 use crate::flaawn_renderer::flaawn_component_with_children::FlaawnComponentWithChildren;
+use crate::flaawn_renderer::html_components::js_standard_library::js_std_lib;
 use std::sync::Arc;
 
 #[macro_export]
@@ -47,12 +48,14 @@ impl FlaawnComponent for HTMLSite {
             <html>
                 <head>
                     <meta charset="UTF-8">
+                    <script>{}</script>
                 </head>
                 <body>
                 {}
                 </body>
             </html>
             "#,
+            js_std_lib(),
             self.build_children(session)
         )
     }

@@ -49,4 +49,10 @@ macro_rules! s {
 
 pub trait FlaawnComponent: Send + Sync {
     fn build(&self, session: &mut std::collections::HashMap<String, String>) -> String;
+    fn handle_input(
+        &self,
+        _: &mut std::collections::HashMap<String, String>, //session
+        _: &std::collections::HashMap<String, String>,     //input data
+    ) {
+    }
 }

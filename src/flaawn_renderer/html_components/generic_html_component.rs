@@ -4,6 +4,11 @@ use crate::flaawn_renderer::html_components::css_styleable::CSSStyleOptions;
 use crate::options_struct;
 use std::sync::Arc;
 
+#[derive(Default)]
+pub struct RandomHtmlId {
+    pub id: String,
+}
+
 #[macro_export]
 macro_rules! GenericHTMLTag {
     ($tag:expr, ( $($on:ident = $ov:expr,)* ), $($child:expr,)*) => {

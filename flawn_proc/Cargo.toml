@@ -8,6 +8,7 @@ edition = "2018"
 [dependencies]
 syn = { version = "1.0.77", features = ["full", "extra-traits"] }
 quote = "1.0.9"
+rand = "0.8.0"
 
 [lib]
 name = "flawn_proc"

@@ -42,7 +42,7 @@ lazy_static! {
 default_renderer!(renderer, TODO_SITE);
 
 #[test]
-fn todo_no_unput() {
+fn todo_no_input() {
     let server = FlaawnServer::new(None, None);
     server
         .route_manager
