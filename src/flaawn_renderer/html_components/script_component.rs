@@ -1,5 +1,6 @@
 use crate::flaawn_renderer::flaawn_component::FlaawnComponent;
 use crate::flaawn_renderer::html_components::generic_html_component::GenericHTMLComponentOptions;
+use crate::no_input;
 use flawn_proc::FlaawnComponentMacro;
 
 #[derive(FlaawnComponentMacro, Default)]
@@ -17,4 +18,6 @@ impl FlaawnComponent for ScriptComponent {
             self.script.as_ref().unwrap_or(&"".to_string())
         )
     }
+
+    no_input!();
 }

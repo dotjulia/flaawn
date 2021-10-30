@@ -1,3 +1,4 @@
+use crate::children_no_input;
 use crate::flaawn_renderer::flaawn_component::FlaawnComponent;
 use crate::flaawn_renderer::flaawn_component_with_children::FlaawnComponentWithChildren;
 use crate::flaawn_renderer::html_components::js_standard_library::js_std_lib;
@@ -31,12 +32,6 @@ impl HTMLSite {
     }
 }
 
-impl FlaawnComponentWithChildren for HTMLSite {
-    fn children(&self) -> Vec<Arc<dyn FlaawnComponent>> {
-        self.child_components.clone()
-    }
-}
-
 impl FlaawnComponent for HTMLSite {
     fn build(
         &self,
@@ -58,5 +53,13 @@ impl FlaawnComponent for HTMLSite {
             js_std_lib(),
             self.build_children(session)
         )
+    }
+
+    children_no_input!();
+}
+
+impl FlaawnComponentWithChildren for HTMLSite {
+    fn children(&self) -> Vec<Arc<dyn FlaawnComponent>> {
+        self.child_components.clone()
     }
 }

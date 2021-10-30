@@ -12,3 +12,15 @@ macro_rules! default_renderer {
         }
     };
 }
+
+#[macro_export]
+macro_rules! default_input_handler {
+    ($name: ident, $comp:ident) => {
+        fn $name(
+            session: std::sync::Arc<std::sync::Mutex<std::collections::HashMap<String, String>>>,
+            input: std::sync::Arc<serde_json::Value>,
+        ) {
+            $comp.handle_input(&mut session.lock().unwrap(), &input);
+        }
+    };
+}

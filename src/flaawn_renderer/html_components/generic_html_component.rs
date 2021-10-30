@@ -1,7 +1,7 @@
 use crate::flaawn_renderer::flaawn_component::FlaawnComponent;
 use crate::flaawn_renderer::flaawn_component_with_children::FlaawnComponentWithChildren;
 use crate::flaawn_renderer::html_components::css_styleable::CSSStyleOptions;
-use crate::options_struct;
+use crate::{children_no_input, options_struct};
 use std::sync::Arc;
 
 #[derive(Default)]
@@ -210,4 +210,5 @@ impl FlaawnComponent for GenericHTMLComponent {
             self.tag
         )
     }
+    children_no_input!();
 }

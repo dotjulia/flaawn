@@ -23,8 +23,8 @@ type RendererFn = fn(
 ) -> String;
 type InputFn = fn(
     session: std::sync::Arc<std::sync::Mutex<std::collections::HashMap<String, String>>>,
-    input: std::sync::Arc<std::collections::HashMap<String, String>>,
-) -> String;
+    input: std::sync::Arc<serde_json::Value>,
+);
 
 #[derive(Copy, Clone)]
 pub struct Route {

@@ -2,9 +2,9 @@ use flaawn::flaawn_renderer::flaawn_component::FlaawnComponent;
 use flaawn::flaawn_renderer::html_components::generic_html_component::RandomHtmlId;
 use flaawn::flaawn_renderer::html_components::html_site::HTMLSite;
 use flaawn::flaawn_server::route::Route;
-use flaawn::flaawn_server::route::RouteMethod::GET;
+use flaawn::flaawn_server::route::RouteMethod::{GET, POST};
 use flaawn::flaawn_server::FlaawnServer;
-use flaawn::{default_renderer, s, HTMLBoilerplate};
+use flaawn::{default_input_handler, default_renderer, s, HTMLBoilerplate};
 use flawn_proc::FlaawnComponentMacro;
 use lazy_static::lazy_static;
 
@@ -35,7 +35,7 @@ impl FlaawnComponent for Button {
     fn handle_input(
         &self,
         _: &mut std::collections::HashMap<String, String>, //session
-        data: &std::collections::HashMap<String, String>,  //input data
+        data: &serde_json::Value,                          //input data
     ) {
         print!("{:?}", data);
     }
@@ -46,14 +46,17 @@ lazy_static! {
 }
 
 default_renderer!(renderer, TODO_SITE);
+default_input_handler!(input_handler, TODO_SITE);
 
 #[test]
 fn input_from_scratch() {
     let server = FlaawnServer::new(None, None);
-    server
-        .route_manager
-        .lock()
-        .unwrap()
-        .add_route(Route::new(GET, "/", renderer));
+    server.route_manager.lock().unwrap().add_route(Route::new(
+        GET,
+        "/",
+        renderer,
+        input_handler,
+        POST,
+    ));
     server.start();
 }

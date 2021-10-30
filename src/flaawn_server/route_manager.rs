@@ -20,9 +20,7 @@ impl RouteManager {
     // }
     pub fn match_route(&self, request: &Request) -> Result<Route, u8> {
         for r in &self.routes {
-            if request.method.unwrap_or("") == r.method.to_string()
-                && request.path.unwrap_or("") == r.route
-            {
+            if request.path.unwrap_or("") == r.route {
                 return Ok(*r);
             }
         }

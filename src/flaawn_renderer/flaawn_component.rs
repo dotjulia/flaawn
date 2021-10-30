@@ -47,12 +47,23 @@ macro_rules! s {
     };
 }
 
+#[macro_export]
+macro_rules! no_input {
+    () => {
+        fn handle_input(
+            &self,
+            _: &mut std::collections::HashMap<String, String>, //session
+            _: &serde_json::Value,                             //input data
+        ) {
+        }
+    };
+}
+
 pub trait FlaawnComponent: Send + Sync {
     fn build(&self, session: &mut std::collections::HashMap<String, String>) -> String;
     fn handle_input(
         &self,
         _: &mut std::collections::HashMap<String, String>, //session
-        _: &std::collections::HashMap<String, String>,     //input data
-    ) {
-    }
+        _: &serde_json::Value,                             //input data
+    );
 }

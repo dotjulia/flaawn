@@ -1,4 +1,4 @@
-use crate::flaawn_renderer::flaawn_component::FlaawnComponent;
+use crate::{flaawn_renderer::flaawn_component::FlaawnComponent, no_input};
 
 #[macro_export]
 macro_rules! PlainText {
@@ -25,4 +25,5 @@ impl FlaawnComponent for PlainTextComponent {
         }
         self.text.clone()
     }
+    no_input!();
 }

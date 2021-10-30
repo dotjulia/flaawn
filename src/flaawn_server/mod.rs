@@ -1,4 +1,5 @@
 use lazy_static::lazy_static;
+use serde_json::Value;
 
 use crate::flaawn_server::route_manager::RouteManager;
 use httparse::Header;
@@ -72,6 +73,7 @@ fn handle_connection(mut stream: TcpStream, route_manager: Arc<Mutex<RouteManage
             let mut headers = [httparse::EMPTY_HEADER; 64];
             let mut req = httparse::Request::new(&mut headers);
             let _ = req.parse(&request_buffer);
+            let method = req.method.unwrap_or("GET");
             match route_manager.lock().unwrap().match_route(&req) {
                 Ok(route) => {
                     let session_id = match find_cookie_header(headers, "session_id".to_string()) {
@@ -79,15 +81,34 @@ fn handle_connection(mut stream: TcpStream, route_manager: Arc<Mutex<RouteManage
                         Err(_) => generate_session_id(),
                     };
                     let session = get_session_map(&session_id);
-                    let renderer = route.renderer;
-                    let now = Instant::now();
-                    let content = renderer(session);
-                    let dur = now.elapsed();
-                    println!(
-                        "Rendering took: {}μs or {}ms",
-                        dur.as_micros(),
-                        dur.as_millis()
-                    );
+                    let mut content: String = "".to_string();
+                    if method == "GET" {
+                        let renderer = route.renderer;
+                        let now = Instant::now();
+                        content = renderer(session);
+                        let dur = now.elapsed();
+                        println!(
+                            "Rendering took: {}μs or {}ms",
+                            dur.as_micros(),
+                            dur.as_millis()
+                        );
+                    } else if method == "POST" {
+                        let input_handler = route.input;
+                        let now = Instant::now();
+                        let body = std::str::from_utf8(&request_buffer)
+                            .unwrap()
+                            .split("\r\n\r\n")
+                            .collect::<Vec<&str>>()[1];
+                        let json: Value =
+                            serde_json::from_str(body.trim_matches(char::from(0))).unwrap();
+                        input_handler(session, Arc::from(json));
+                        let dur = now.elapsed();
+                        println!(
+                            "Input handler took: {}μs or {}ms",
+                            dur.as_micros(),
+                            dur.as_millis(),
+                        );
+                    }
                     let status_line = "HTTP/1.1 200 OK";
                     let response = format!(
                     "{}\r\nContent-Type: text/html\r\nSet-Cookie: session_id={}\r\nContent-Length: {}\r\n\r\n{}",

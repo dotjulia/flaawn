@@ -2,9 +2,11 @@ use std::sync::Arc;
 
 use flaawn::flaawn_renderer::flaawn_component::FlaawnComponent;
 use flaawn::flaawn_renderer::html_components::html_site::HTMLSite;
-use flaawn::flaawn_server::route::RouteMethod::GET;
+use flaawn::flaawn_server::route::RouteMethod::{GET, POST};
 use flaawn::flaawn_server::{route::Route, FlaawnServer};
-use flaawn::{default_renderer, li, s, ul, HTMLBoilerplate, PlainText};
+use flaawn::{
+    default_input_handler, default_renderer, li, no_input, s, ul, HTMLBoilerplate, PlainText,
+};
 use flawn_proc::FlaawnComponentMacro;
 use lazy_static::lazy_static;
 
@@ -33,6 +35,8 @@ impl FlaawnComponent for TodoComp {
         }
         list.build(session)
     }
+
+    no_input!();
 }
 
 lazy_static! {
@@ -40,14 +44,17 @@ lazy_static! {
 }
 
 default_renderer!(renderer, TODO_SITE);
+default_input_handler!(input_handler, TODO_SITE);
 
 #[test]
 fn todo_no_input() {
     let server = FlaawnServer::new(None, None);
-    server
-        .route_manager
-        .lock()
-        .unwrap()
-        .add_route(Route::new(GET, "/", renderer));
+    server.route_manager.lock().unwrap().add_route(Route::new(
+        GET,
+        "/",
+        renderer,
+        input_handler,
+        POST,
+    ));
     server.start();
 }

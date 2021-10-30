@@ -5,13 +5,14 @@ use std::collections::HashMap;
 use std::sync::Arc;
 use std::sync::Mutex;
 
+use flaawn::default_input_handler;
 use flaawn::div;
 use flaawn::flaawn_renderer::flaawn_component::FlaawnComponent;
 use flaawn::flaawn_renderer::html_components::css_component::CSSComponent;
 use flaawn::flaawn_renderer::html_components::html_site::HTMLSite;
 use flaawn::flaawn_renderer::html_components::script_component::ScriptComponent;
 use flaawn::flaawn_server::route::Route;
-use flaawn::flaawn_server::route::RouteMethod::GET;
+use flaawn::flaawn_server::route::RouteMethod::{GET, POST};
 use flaawn::flaawn_server::FlaawnServer;
 use flaawn::img;
 use flaawn::p;
@@ -49,13 +50,17 @@ fn main_renderer(session: Arc<Mutex<HashMap<String, String>>>) -> String {
     MAIN_COMP.build(&mut session.lock().unwrap())
 }
 
+default_input_handler!(input_handler, MAIN_COMP);
+
 #[test]
 fn basic() {
     let server = FlaawnServer::new(None, None);
-    server
-        .route_manager
-        .lock()
-        .unwrap()
-        .add_route(Route::new(GET, "/", main_renderer));
+    server.route_manager.lock().unwrap().add_route(Route::new(
+        GET,
+        "/",
+        main_renderer,
+        input_handler,
+        POST,
+    ));
     server.start();
 }
