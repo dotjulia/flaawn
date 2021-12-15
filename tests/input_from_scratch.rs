@@ -17,27 +17,38 @@ struct Button {
 }
 
 impl FlaawnComponent for Button {
-    fn build(&self, _: &mut std::collections::HashMap<String, String>) -> String {
+    fn build(&self, session: &mut std::collections::HashMap<String, String>) -> String {
         format!(
             r#"
             <script>
             function on_button_press() {{
                 flaawn_submit("{}")
+                //location.reload();
             }}
             </script>
-            <button onclick="on_button_press()">{} {}</button>"#,
+            <button onclick="on_button_press()">{} {}</button>
+            <p>{}</p>"#,
             self.id.id,
             self.label.clone().unwrap(),
-            self.test.unwrap()
+            self.test.unwrap(),
+            session.get("counter").unwrap_or(&String::from("0")),
         )
     }
 
     fn handle_input(
         &self,
-        _: &mut std::collections::HashMap<String, String>, //session
+        session: &mut std::collections::HashMap<String, String>, //session
         data: &serde_json::Value,                          //input data
     ) {
-        print!("{:?}", data);
+        let counter = session.get_mut("counter");
+        match counter {
+            Some(a) => {
+                *a = ((*a).parse::<i32>().unwrap_or(0) + 1).to_string();
+            },
+            None => {
+                session.insert("counter".to_string(), "1".to_string());
+            },
+        }
     }
 }
 

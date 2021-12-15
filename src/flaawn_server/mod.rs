@@ -121,14 +121,17 @@ fn handle_connection(mut stream: TcpStream, route_manager: Arc<Mutex<RouteManage
                     stream.flush().unwrap();
                 }
                 Err(_) => {
-                    println!(
-                        "Invalid route: {}",
-                        std::str::from_utf8(&request_buffer)
-                            .unwrap_or("Invalid request format")
-                            .split("\n")
-                            .nth(0)
-                            .unwrap_or("??")
-                    );
+                    let route = std::str::from_utf8(&request_buffer)
+                        .unwrap_or("Invalid request format")
+                        .split("\n")
+                        .nth(0)
+                        .unwrap_or("??");
+                    if !route.contains("favicon") {
+                        println!(
+                            "Invalid route: {}",
+                            route
+                        );
+                    }
                 }
             };
         }
